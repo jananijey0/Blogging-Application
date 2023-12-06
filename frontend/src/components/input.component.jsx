@@ -11,7 +11,7 @@ const InputBox = ({name,type,id,value,placeholder,icon}) => {
     type ={type == 'password' ? passwordVisible ? "text":
     "password" : type}
     placeholder ={placeholder}
-    defualtValue={value}
+    defaultValue={value}
     id ={id}
   
     className='input-box'>

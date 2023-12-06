@@ -5,12 +5,15 @@ import bcrypt from 'bcrypt';
 import {nanoid} from 'nanoid';
 import jwt from 'jsonwebtoken'
 import User from '../server/Schema/User.js';
+import cors from 'cors';
 const server = express();
 let PORT = 3000;
 
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
-server.use(express.json()); //to use middleware  json sends requests and gets respose
+server.use(express.json());
+//to use middleware  json sends requests and gets respose
+server.use(cors()); //enables to accept data from anywhere
 mongoose.connect(process.env.DB_LOC,
     { autoIndex:true})
 
