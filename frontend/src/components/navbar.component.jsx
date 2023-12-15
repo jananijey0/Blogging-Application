@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState ,useContext} from 'react'
 import logo from '../imgs/logo.png'
 import { Link,Outlet } from 'react-router-dom'
+import { UserContext } from '../App'
+import UserNavigationPanel from './user-navigation.component'
+
 
 const   Navbar = () => {
     //creating state for search box visibility
-    const [ searchBoxVisiblity , setSearchBoxVisibility] = useState(false)
+    const [ searchBoxVisiblity , setSearchBoxVisibility] = useState(false);
+    const [userNavPanel,setUserNavPanel] =useState(false);
+    const {userAuth,userAuth:{access_token ,profile_img}} = useContext(UserContext); //new
+const handleUserNavPanel =() =>{ setUserNavPanel(currentVal => !currentVal); }
+const handleBlur =() => {
+   setTimeout(() => {
+    setUserNavPanel(false);
+   },200);
+}
   return (
     <>
     <div className='navbar'>  
@@ -29,13 +40,36 @@ const   Navbar = () => {
     <i className ="fi fi-rr-file-edit"></i>
 <p>Write</p>
     </Link>
+    {
+        
+        access_token ? 
+        <>
+        <Link to ='/dashboard/notification'>
+            <button className='w-12 h-12 rounded-full bg-grey relative hover:bg-black/10'>
+            <i className='fi fi-rr-bell text-2xl block mt-1'></i>
+            </button></Link>
 
-    <Link className=' btn-dark py-2 to ' to ='/signin'>
+            <div className='relative' onClick={handleUserNavPanel} onBlur={handleBlur}>
+        <button className='w-12 h-12 mt-1'>
+            <img src = {profile_img} className='w-full h-full object-cover rounded-full'/>
+        </button> 
+
+        {userNavPanel ?
+        <UserNavigationPanel/> : ''}
+    </div>
+    
+            
+            </> : <><Link className=' btn-dark py-2 to ' to ='/signin'>
         Sign In 
     </Link>
     <Link className=' btn-light py-2 to  hidden md:block' to ='/signup'>
         Sign Up
     </Link>
+    
+    </>
+    }
+
+   
     </div>
     </div>
     <Outlet/>

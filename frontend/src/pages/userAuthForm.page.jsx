@@ -1,24 +1,38 @@
-import React,{useRef} from 'react' 
+import React,{ useRef,useContext} from 'react' 
 import InputBox from '../components/input.component'
 import googleIcon from '../imgs/google.png'
-import { Link } from 'react-router-dom';
-import App from './../App';
+import { Link,Navigate} from 'react-router-dom';
+ import App from '../App';
 import {Toaster,toast} from 'react-hot-toast'; 
 import AnimationWrapper from './../common/page-animation';
 import axios from 'axios'
+ import { UserContext} from '../App';
+import { storeInSession } from '../common/session';
 
 const UserAuthForm = ({type}) => {
 
-     const authForm = useRef(); 
+      const authForm = useRef(); 
+   
+ let { userAuth: {access_token},setUserAuth } = useContext(UserContext); 
+
+// let { userAuth } = useContext(UserContext);
+// let access_token = userAuth?.access_token;
+console.log(access_token);
      const userAuthThroughServer = (serverRoute,formData) =>{
- axios.post(import.meta.env.VITE_SERVER_DOMAIN + serverRoute,formData)
- .then(({data})=>{
-     console.log(data);
+ axios.post(import.meta.env.VITE_SERVER_DOMAIN + serverRoute,
+     formData)
+ .then(({data}) => {
+     storeInSession("user",JSON.stringify(data))
+      setUserAuth(data);
+     console.log(sessionStorage)
+    
  }) 
  .catch(({response})=>{
      toast.error(response.data.error)
  })
+
      }
+     
     
 const handleSubmit = (e) => {
 
@@ -27,7 +41,8 @@ const handleSubmit = (e) => {
      let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
      let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
  
-     let form = new FormData(authForm.current);
+    let form = new FormData(formElement);
+    //let form = new FormData(authForm.current);
      let formData = {};
      for (let [key, value] of form.entries()) {
          formData[key] = value;
@@ -54,12 +69,14 @@ if(!passwordRegex.test(password)){
 } 
 userAuthThroughServer(serverRoute,formData)
 }
-
+//
   return (
+      access_token ? ( <Navigate to = "/"/> ) :(
    <AnimationWrapper keyValue={type}>
    <section className='h-cover flex items-center justify-center'>
      <Toaster/>
-<form ref = {authForm} className='w-[80%] max-w-[400px]'>
+<form id ='formElement' ref={authForm} className='w-[80%] max-w-[400px]'>
+    
     <h1 className=' text-4xl font-gelasio capitalize text-center mb-24'>{type == "sign-in"? "Welcome back": "Join us Today"}</h1>
 {
     type != "sign-in" ?
@@ -119,7 +136,7 @@ userAuthThroughServer(serverRoute,formData)
 
    </section>
    </AnimationWrapper>
-  )
+  ))
 }
 
-export default UserAuthForm
+export default UserAuthForm ;
