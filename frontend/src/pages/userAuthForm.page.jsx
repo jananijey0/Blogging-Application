@@ -8,6 +8,10 @@ import AnimationWrapper from './../common/page-animation';
 import axios from 'axios'
  import { UserContext} from '../App';
 import { storeInSession } from '../common/session';
+import { authWithGoogle } from '../common/firebase';
+// Import necessary Firebase modules
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+
 
 const UserAuthForm = ({type}) => {
 
@@ -32,7 +36,33 @@ console.log(access_token);
  })
 
      }
-     
+     const authWithGoogle = async () => {
+          // Get the Auth instance
+          const auth = getAuth();
+          // Create a GoogleAuthProvider instance
+          const provider = new GoogleAuthProvider();
+        
+          try {
+            // Use signInWithPopup to trigger the Google Sign-In popup
+            const result = await signInWithPopup(auth, provider);
+            
+            // Access the user from the result
+            const user = result.user;
+        
+            // Check if user and accessToken are defined
+            if (!user || !user.accessToken) {
+              throw new Error('Access token is undefined');
+            }
+        
+            // Return the user object
+            return user;
+          } catch (error) {
+            // Handle any errors that occurred during the Google Sign-In process
+            console.error('Error signing in with Google:', error.message);
+            throw error;
+          }
+        };
+        
     
 const handleSubmit = (e) => {
 
@@ -69,7 +99,30 @@ if(!passwordRegex.test(password)){
 } 
 userAuthThroughServer(serverRoute,formData)
 }
-//
+
+   
+const handleGoogleAuth  = (e) =>{
+     e.preventDefault();
+     
+  
+    authWithGoogle().then(user =>
+          {
+               
+               let serverRoute ='/google-auth';
+               let formData = {
+                    access_token: user.accessToken
+               }
+
+               userAuthThroughServer(serverRoute,formData)
+          })
+          .catch (err =>{
+               toast.error('Trouble login through google')
+               return console.log(err)
+          })
+
+}
+
+   
   return (
       access_token ? ( <Navigate to = "/"/> ) :(
    <AnimationWrapper keyValue={type}>
@@ -114,7 +167,7 @@ userAuthThroughServer(serverRoute,formData)
           <p>or</p>
           <hr className='w-1/2 border-black'/>
      </div>
-     <button className='btn-dark flex items-center justify-center gap-4 w-[90%] center'>
+     <button className='btn-dark flex items-center justify-center gap-4 w-[90%] center' onClick={handleGoogleAuth}>
           <img src={googleIcon} className='w-5'/>
      continue with google
      </button>
