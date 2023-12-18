@@ -3,6 +3,7 @@ import Navbar from "./components/navbar.component";
 import UserAuthForm from "./pages/userAuthForm.page";
 import { createContext,useEffect,useState } from "react";
 import {lookInSession} from "./common/session.jsx"
+import Editor from './pages/editor.pages';
 
  export const UserContext = createContext({});   //global state can access it from anywhere on the port - context
 const App = () => {
@@ -18,6 +19,7 @@ userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth({access_tok
     
             <UserContext.Provider value={{ userAuth, setUserAuth }}>
        <Routes>
+        <Route path ='/editor' element ={<Editor/>}></Route>
         <Route  path = '/' element ={<Navbar/>}>
         <Route  path = 'signin' element ={<UserAuthForm type= 'sign-in'/> }/>
         <Route  path = 'signup' element ={<UserAuthForm type= 'sign-up'/>}/>
