@@ -16,7 +16,7 @@ useEffect(()=>{
    setTextEditor(new EditorJS({
 
         holderId: 'textEditor',
-        data:'',
+        data:content,
         tools : tools,
         placeholder:"Let's Write an Awesome story",
     }))
@@ -44,7 +44,7 @@ useEffect(()=>{
     const handleTitlekeyDown =(e)=>{
 
 if(e.keyCode ==13){//enter key code
-e.preventDefualt();
+e.preventDefault();
 }
     }
     const handleTitleChange =(e)=>{
@@ -57,27 +57,27 @@ e.preventDefualt();
         let img = e.target;
         img.src = defaultBanner;
     }
-
+// validations
     const handlePublishEvent =() => {
-        if(!banner.length){
-            return toast.error("Upload a Blog Banner to publish it")
-        }
-        if(!title.length){
-            return toast.error("Write a Title to publish the Blog")
-        }
-        if(textEditor.isReady){
+        // if(!banner.length){
+        //     return toast.error("Upload a Blog Banner to publish it")
+        // }
+        // if(!title.length){
+        //     return toast.error("Write a Title to publish the Blog")
+        // }
+        // if(textEditor.isReady){
             textEditor.save().then(data => {
-                if(data.blocks.length){
+        //         if(data.blocks.length){
                     setBlog({...blog, content:data});
                     setEditorState("Publish")
-                }else {
-                    return toast.error("Write Something in your blog to publish it.")
-                }
+        //         }else {
+        //             return toast.error("Write Something in your blog to publish it.")
+        //         }
             })
             .catch ((err)=>{
                 console.log(err);
             })
-        }
+        // }
     }
   return (
     <>
@@ -115,6 +115,7 @@ e.preventDefualt();
                         </label>
                     </div>
                     <textarea
+                    defaultValue={title}
                     placeholder='Blog Title'
                     className='text-4xl font-medium w-full h-20 outline-none resize-none mt-10 leading tight placeholder:opa city-40'
                     onKeyDown={handleTitlekeyDown}
