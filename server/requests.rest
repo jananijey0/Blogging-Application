@@ -1,8 +1,24 @@
-# POST http://localhost:3000/signin
+# POST http://localhost:3000/signup
 # Content-Type: application/json
 
 # {
-#   "email" : "janani@gmail.com",
-#   "password" : "Ja3234"
+#     "fullname" : "jan",
+#     "email" : "jan123@gmail.com",
+#     "password" : "#Janani123"
 # }
-GET http://localhost:3000/get-upload-url
+# "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJmMjQwYjJjODY3ZTIzODkwNTNkMiIsImlhdCI6MTcwMzA4MDUxMn0.eDs3i_QQY980EWD5BpplASytAkh_YVxJKS0yAVmFx5M"
+
+POST http://localhost:3000/create-blog
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJmMjQwYjJjODY3ZTIzODkwNTNkMiIsImlhdCI6MTcwMzA4MDUxMn0.eDs3i_QQY980EWD5BpplASytAkh_YVxJKS0yAVmFx5M
+
+{
+    "title":"test title @ 3 134",
+    "banner":"https://examp.com/image-url",
+    "des":"hello desc",
+    "content":{
+        "blocks":[1,2]
+    },
+"tags":["tag1","tag2"]
+        
+}
