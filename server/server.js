@@ -211,6 +211,23 @@ return res.status(200).json(formatDatatoSend(user))
     return res.status(500).json({"error":"Failed to authenticate you with google.Try with some other google account"})
   })
 })
+//latest blogs
+server.get('/latest-blogs',(req,res)=>
+{
+  let maxLimit = 5;
+  Blog.find({draft:false})
+  .populate("author","personal_info.profile_img personal_info.username personal_info.fullname -_id")
+  .sort({"publishedAt":-1})
+  .select("blog_id title des activity tags publishedAt -_id")
+  .limit(maxLimit)
+  .then(blogs => {
+  return res.status(200).json({blogs})
+}).catch(err =>
+{ return res.status(500).json({error:err.message})
+})
+})
+
+//blog creation
 server.post('/create-blog',verifyJWT,(req,res)=>{
  let authorId = req.user;
 

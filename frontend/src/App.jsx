@@ -4,6 +4,7 @@ import UserAuthForm from "./pages/userAuthForm.page";
 import { createContext,useEffect,useState } from "react";
 import {lookInSession} from "./common/session.jsx"
 import Editor from './pages/editor.pages';
+import HomePage from "./pages/home.page.jsx";
 
  export const UserContext = createContext({});   //global state can access it from anywhere on the port - context
 const App = () => {
@@ -20,11 +21,12 @@ userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth({access_tok
             <UserContext.Provider value={{ userAuth, setUserAuth }}>
        <Routes>
         <Route path ='/editor' element ={<Editor/>}></Route>
-        <Route  path = '/' element ={<Navbar/>}>
+        <Route Route path = '/' element ={<Navbar/>}>
+        <Route index element = {<HomePage/>}/>
         <Route  path = 'signin' element ={<UserAuthForm type= 'sign-in'/> }/>
         <Route  path = 'signup' element ={<UserAuthForm type= 'sign-up'/>}/>
-        </Route>
-    
+        
+    </Route>
        </Routes>
        </UserContext.Provider>
 
