@@ -42,7 +42,8 @@ let [trendingBlogs,setTrendingBlogs] =useState(null);
 {
     blogs == null ? <Loader/> :
    blogs.map((blog,i)=>{
-    return <AnimationWrapper key ={i} transition={{duration:1, delay:i*.1}}><BlogPostCard content={blog} author ={blog.author.personal_info}/></AnimationWrapper>
+    return <AnimationWrapper key ={i} transition={{duration:1, delay:i*.1}}>
+        <BlogPostCard content={blog} author ={blog.author.personal_info}/></AnimationWrapper>
    })
 }
 </>

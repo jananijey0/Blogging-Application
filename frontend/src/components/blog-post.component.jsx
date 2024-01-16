@@ -1,12 +1,15 @@
 import React from 'react'
 import { getDay } from './../common/date';
-
 import { Link } from 'react-router-dom';
 
 const BlogPostCard = ({content,author}) => {
-    let { publishedAt,tags,title,des,banner,activity:{total_likes},blog_id:id} = content;
+    let {banner,publishedAt,tags,title,des,activity:{total_likes},blog_id:id} = content;
     let {fullname,profile_img,username} = author;
+ 
+
   return (
+ 
+
     <Link to ={`/blog/${id}`} className='flex gap-8 items-center border-b border-grey pb-5 mb-4'>
     <div className='w-full'>
 
@@ -27,10 +30,10 @@ const BlogPostCard = ({content,author}) => {
         </div> </div>
         <div className='h-28 aspect-square bg-grey'>
           
-            <img  src ={banner} className='w-full h-full aspect-square object-cover'/>
+          <img src={banner} className='w-full h-full aspect-square object-cover'  onError={(e) => console.error('Error loading image:', e)}/>
 
         </div></Link>
   )
 }
-
+//   
 export default BlogPostCard

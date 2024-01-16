@@ -10,6 +10,7 @@ export const uploadImage = async (img) => {
             method:'PUT',
             url:uploadURL,
             headers : {'Content-Type': 'multipart/form-data'},
+           
             data : img
          }).then(()=>{
             imgUrl = uploadURL.split("?")[0]
@@ -19,3 +20,4 @@ export const uploadImage = async (img) => {
     )
     return imgUrl;
 }
+

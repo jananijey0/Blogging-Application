@@ -15,26 +15,20 @@ import admin from 'firebase-admin'
 
 const server = express();
 
-
-  const ServiceAccountKey = {
-    "type": process.env.TYPE,
-    "project_id": process.env.PROJECT_ID,
-    "private_key_id": process.env.PRIVATE_KEY_ID,
-    "private_key": process.env.PRIVATE_KEY,
-    "client_email": process.env.CLIENT_EMAIL,
-    "client_id": process.env.CLIENT_ID,
-    "auth_uri": process.env.AUTH_URI,
-    "token_uri": process.env.TOKEN_URI,
-    "auth_provider_x509_cert_url": process.env.AUTH_PROVIDER_X509_CERT_URL,
-    "client_x509_cert_url": process.env.CLIENT_X509_CERT_URL,
-    "universe_domain": process.env.UNIVERSE_DOMAIN
-  };
-  
-
+const ServiceAccountKey = {
+  "type": "service_account",
+  "project_id": "blogging-application-b9b6d",
+  "private_key_id": "d21b96109714a74337cdd9db96ac5ab902b657ab",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6Y9D67NsyL096\nxuKMn2CH61xFSfLNzaOhMvcBsGdloEnxCJobLUeRH+9h0szd1MGzePsiAEMkFYQX\no+jV4Z9oDZOIDnk1K0cAbOzRhBEfLiKl4zkpjn8I0vV/Oyw8aniihaPVkiASr07P\n3PHAZ6fyZAlhWzwzMas1Qv1GlGe+ilJ9cWxsp5Qa6K0T2+XPg5n1lKAgyifaUWum\n089gbBbkOOiHgAntEyUzbAPsY4+udjQFcqfUHuBXWQskTccffFEJzUqSoPLTDwHg\nFKlTJeVM5FLFG2jwb7xqVs0dwrv0lYZqZuYB8S8VgX4T3JfmYOValWCtBpJCm9FA\ngKbaPpTXAgMBAAECggEAKNeDbOBmvY3pXA1ligvIUrArhVFJX3hOgR2SS2/0kCu5\n2BOa9RaMZov5X9WZp4gds65wVQh6rdb7HVUAyZEJZXsIF1mYjKKBieHUWKqYN91b\noT7zgRwk0PGs8qasMEbiTTZ8aml9FqsMWXbgEFmGTxJFjew4ej1Jdz/JEOSnAPSd\nW4lDNFX77KqVNGLdJ//6LwIHHmabnjQI0pkblp+dbeD/ytqSIoefm1MmCR5bM4Yu\njghh0D5u+pb+H3Q70pgFjLzri4YU7mw7TrFMYZCddHZBtZSU/uJmSXbC4XegWMdR\n0S0dtEJ1BNXySgD835wqxsX54CYhs2yhMJCpgta8FQKBgQDqbN5ZtAYdbg+Jla/9\nD4Zz4m9NqdmDMyMp0710NgnXrs+DqQj8igh4WEtPhvO3Ma/IHKWuYnDhl+9aU8Jk\n2E9/QHx0yY7dl9up3Udm0lrPNdG3HVc0+4bPvuUuuV42jog5Hq4Fv4Z6ZeOTISra\nnb83quvnqTBolQc/leIiBZl8BQKBgQDLizhLn0lncIpY1vlQ+d6k3gcF/5PUB+NA\nPFHHLFvhwJzSKHdNVFI4XAu1E+rcol1eFLoLklDfnO16wZTfJeeEBZRSZRirsn5o\nZ2eeokEJQOh7BIEnzKsCZyGSH5KY8oFg7pQ3s5Yr00wuIz2FQvrSog5FYLajlbRc\nYQrQiBfAKwKBgQCoQSd9/sX8zYf9WiCMY14/QqBcf7IMhuGQHdd212pNEb0DZIl8\nqJ3XsperJtM6A0GFQXpxJVqbsG8sx71YoCC+1sv9DsWpqlsRGi8rT4O6AYjaAwca\nkgV6iir4VDeYtMh1Jt4EZijhJMwoR7/4VQxvqg/ToA2MoponOy6o+Jfm+QKBgBIF\nD0TSo0L/GaBn18ateGKMLX8Ac2vwDtRfArZpXPENhlSstHMqJeVLcNXlH4PM9Asi\nNp5To8lIMVYO0Uk4J9juTYVF4ftBYCOKFAhdQPi6wFozueN2ISWjT7uKBAZ6Ya3d\nMU4FHiRfHn1vLUEg/ueq5SyLNWAiHseW58gyZDflAoGAew+wI51fiPl0BoXtjar6\nlGM+QbrSAclEs1HUDL28PZiwoAqNiQSQzRUbsP4NpvGIB9MM0XXPmYr1fNQupmqR\nxA7O1PknZvXLIXyGpvdlupK0wccxIoFSVyvOvxuaY/txbMAPgDlIPc3WEhbuCaJm\n0KK2qt4P7gppaG4tL+5W7LU=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-7xoop@blogging-application-b9b6d.iam.gserviceaccount.com",
+  "client_id": "104432578254166060525",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-7xoop%40blogging-application-b9b6d.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
 let PORT = 3000;
-
-
-
 admin.initializeApp ({
   credential:admin.credential.cert(ServiceAccountKey)
 })
@@ -55,17 +49,19 @@ const s3 = new aws.S3({
 })
 
 //generating url for uploading
-const generateUploadURL =async() =>{
-  const date =new Date();
-  const imageName = `${nanoid()}-${date.getTime()}.jpeg`
+const generateUploadURL =  async () => {
+  const date = new Date();
+ 
+  const imageName = `${nanoid()}-${date.getTime()}.jpeg`;
  return await s3.getSignedUrlPromise('putObject',{
     Bucket:'blogging-application',
-    Key:imageName,
+    Key: imageName,
     Expires : 1000,
-    ContentType : 'image/jpeg'
+    ContentType : "image/jpeg"
+   
   })
 }
-
+// "image/jpeg",
 const verifyJWT =(req,res,next)=>{
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(" ")[1];
@@ -102,7 +98,7 @@ isUsernameNotUnique ? username += nanoid().substring(0,5): "";
 return username
 }
 //upload image url route
-server.get ('/get-upload-url',(req,res)=>{
+server.get('/get-upload-url',(req,res)=>{
   generateUploadURL().then(url => res.status(200).json({uploadURL:url}))
   .catch (err =>
     {console.log(err.message);
@@ -221,7 +217,7 @@ server.get('/latest-blogs',(req,res)=>
   Blog.find({draft:false})
   .populate("author","personal_info.profile_img personal_info.username personal_info.fullname -_id")
   .sort({"publishedAt":-1})
-  .select("blog_id title activity tags publishedAt -_id")
+  .select("blog_id title des banner activity tags publishedAt -_id")
   .limit(maxLimit)
   .then(blogs => {
   return res.status(200).json({blogs})
