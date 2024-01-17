@@ -6,7 +6,12 @@
 #     "email" : "jan123@gmail.com",
 #     "password" : "#Janani123"
 # }
+
+
 # "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJmMjQwYjJjODY3ZTIzODkwNTNkMiIsImlhdCI6MTcwMzA4MDUxMn0.eDs3i_QQY980EWD5BpplASytAkh_YVxJKS0yAVmFx5M"
+POST http://localhost:3000/search-blogs
+Content-Type: application/json
 
-GET http://localhost:3000/trending-blogs
-
+{
+    "tag" : "check"
+}
