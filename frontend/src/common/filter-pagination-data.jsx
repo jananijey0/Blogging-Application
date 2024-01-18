@@ -1,13 +1,14 @@
 import React from 'react'
 import axios from 'axios';
-const fiterPaginationData = async({create_new_array = false,state,arr,data,page,countRoute,data_to_send={}}) => {
+
+export const filterPaginationData = async({create_new_array = false,state,data,page,countRoute,data_to_send={}}) => {
     let obj;
     if(state != null && !create_new_array){
-        obj ={...state,results: [...state.results,...data],page: page}
+        obj = {...state,results: [...state.results,...data], page: page}
     } else{
        await axios.post(import.meta.env.VITE_SERVER_DOMAIN + countRoute,data_to_send)
         .then(({data: {totalDocs}}) => {
-            obj ={results: data,page:1,totalDocs}
+            obj = { results: data, page: 1,totalDocs }
 
         }
             ).catch (err => {
@@ -18,4 +19,3 @@ const fiterPaginationData = async({create_new_array = false,state,arr,data,page,
  
 }
 
-export default fiterPaginationData

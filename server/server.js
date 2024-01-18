@@ -258,14 +258,21 @@ server.get('/trending-blogs',(req,res)=>
 
 //filtering blogs/searching items
 server.post("/search-blogs",(req,res) => {
-  let { tag, page } = req.body;
-  let findQuery = {tags: tag, draft:false}
+  let { tag, query, page } = req.body;
+
+  let findQuery;
+  if(tag){
+    findQuery = {tags: tag, draft: false };
+  }
+  else if(query){
+    findQuery = { draft: false, title: new RegExp(query, 'i')}
+  }
   let maxLimit = 5;
   Blog.find(findQuery)
   .populate("author","personal_info.profile_img personal_info.username personal_info.fullname -_id")
   .sort({"publishedAt":-1})
   .select("blog_id title des banner activity tags publishedAt -_id")
-  .skip((page -1 * maxLimit))
+  .skip((page - 1) * maxLimit)
   .limit(maxLimit)
   .then(blogs => {
   return res.status(200).json({blogs})
@@ -274,9 +281,15 @@ server.post("/search-blogs",(req,res) => {
 })
 })
 
-server.post("search-blogs-count",(req,res)=>{
-  let {tag} = req.body;
-  let findquery ={tags: tag,draft: false};
+server.post("/search-blogs-count",(req,res)=>{
+  let { tag , query } = req.body;
+  let findQuery;
+  if(tag){
+    findQuery = {tags: tag, draft: false };
+  }
+  else if(query){
+    findQuery = { draft: false, title: new RegExp(query, 'i')}
+  }
   Blog.countDocuments(findQuery)
   .then(count =>{
     return res.status(200).json({totalDocs: count})
@@ -284,6 +297,32 @@ server.post("search-blogs-count",(req,res)=>{
   .catch(err => {
     console.log(err.message);
     return res.status(500).json({error:err.message})
+  })
+})
+//search users
+server.post("/search-users",(req,res)=>{
+  let {query} = req.body;
+  User.find({"personal_info.username": new RegExp(query,'i')}
+  )
+  .limit(50)
+  .select("personal_info.fullname personal_info.username personal_info.profile_img -_id")
+  .then(users =>{
+    return res.status(200).json({users})
+  })
+  .catch(err => {
+    return res.status(500).json({error:err.message})
+  })
+})
+//user profile
+server.post("/get-profile",(req,res)=>
+{
+  let {username} = req.body;
+  User.findOne({"personal_info.username": username })
+  .select("-personal_info.password -google_auth -updatedAt -blogs")
+  .then(user => {
+    return res.status(200).json(user)
+  }).catch(err =>{
+    return res.status(500).json({error: err.message})
   })
 })
 

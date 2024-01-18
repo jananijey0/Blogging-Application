@@ -9,9 +9,10 @@
 
 
 # "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJmMjQwYjJjODY3ZTIzODkwNTNkMiIsImlhdCI6MTcwMzA4MDUxMn0.eDs3i_QQY980EWD5BpplASytAkh_YVxJKS0yAVmFx5M"
-POST http://localhost:3000/search-blogs
+POST http://localhost:3000/get-profile
 Content-Type: application/json
 
 {
-    "tag" : "check"
+    "query" : "jan"
+
 }
