@@ -92,37 +92,37 @@ setPageState(category);
     {/* {latest blogs} */}
     <div className='w-full'>
         <InPageNavigation routes ={[pageState,"trending blogs"]} defaultHidden = {["trending blogs"]}>
-<>
-{
-    blogs == null ? <Loader/> : blogs.results.length ?
-   blogs.results.map((blog,i)=>{
+            <>
+            {
+         blogs == null ? <Loader/> : blogs.results.length ?
+         blogs.results.map((blog,i)=>{
 
-    return (
-    <AnimationWrapper 
-    key ={i} 
-    transition={{duration:1, delay:i*.1}}
+        return (
+        <AnimationWrapper 
+        key ={i} 
+        transition={{duration:1, delay:i*.1}}
     >
         <BlogPostCard 
         content={blog} 
         author ={blog.author.personal_info}
         />
         </AnimationWrapper>
-    );
-    })
-  : <NoDataMessage message= "No Blogs Published"/>
-}
-<LoadMoreDataBtn state ={blogs} fetchDataFun= {(pageState == "home" ? fetchLatestBlogs : fetchBlogsByCategory )}/>
-</>
-{
-    trendingBlogs == null ? <Loader/> : trendingBlogs.length ?
-    trendingBlogs.map((blog,i)=>{
-     return (<AnimationWrapper key ={i} transition={{duration:1, delay:i*.1}}>
-       <MinimalBlogPost blog= {blog} index ={i}/>
+        );
+        })
+    : <NoDataMessage message= "No Blogs Published"/>
+        }
+    <LoadMoreDataBtn state ={blogs} fetchDataFun= {(pageState == "home" ? fetchLatestBlogs : fetchBlogsByCategory )}/>
+    </>
+    {
+         trendingBlogs == null ? <Loader/> : trendingBlogs.length ?
+         trendingBlogs.map((blog,i)=>{
+         return (<AnimationWrapper key ={i} transition={{duration:1, delay:i*.1}}>
+         <MinimalBlogPost blog= {blog} index ={i}/>
         </AnimationWrapper>
-     );
-    })
-    : <NoDataMessage message= "No Trending Blogs"/>
-}
+        );
+            })
+          : <NoDataMessage message= "No Trending Blogs"/>
+        }
 
         </InPageNavigation>
 

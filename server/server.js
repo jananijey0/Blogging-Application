@@ -256,9 +256,10 @@ server.get('/trending-blogs',(req,res)=>
 })
 })
 
-//filtering blogs/searching items
+//Searching blogs
+
 server.post("/search-blogs",(req,res) => {
-  let { tag, query, page } = req.body;
+  let { tag, query, page,author } = req.body;
 
   let findQuery;
   if(tag){
@@ -266,6 +267,8 @@ server.post("/search-blogs",(req,res) => {
   }
   else if(query){
     findQuery = { draft: false, title: new RegExp(query, 'i')}
+  }else if(author){
+    findQuery ={ author, draft:false}
   }
   let maxLimit = 5;
   Blog.find(findQuery)
@@ -280,15 +283,19 @@ server.post("/search-blogs",(req,res) => {
 { return res.status(500).json({error:err.message})
 })
 })
+//search blog counts
 
 server.post("/search-blogs-count",(req,res)=>{
-  let { tag , query } = req.body;
+  let { tag , query ,author } = req.body;
   let findQuery;
   if(tag){
     findQuery = {tags: tag, draft: false };
   }
   else if(query){
     findQuery = { draft: false, title: new RegExp(query, 'i')}
+  }
+  else if(author){
+    findQuery ={ author, draft:false}
   }
   Blog.countDocuments(findQuery)
   .then(count =>{
@@ -353,8 +360,6 @@ server.post('/create-blog',verifyJWT,(req,res)=>{
 
  }
 
-
- 
 tags = tags.map(tag => tag.toLowerCase());
 let blog_id = title.replace(/[^a-zA-Z0-9]/g,' ').replace(/\s+/g,"-").trim() + nanoid();
 let blog =new Blog ({
