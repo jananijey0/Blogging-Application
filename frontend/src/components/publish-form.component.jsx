@@ -5,12 +5,16 @@ import { EditorContext } from '../pages/editor.pages'
 import Tag from './tags.component';
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
+
+
 const PublishForm = () => {
+
  let characterLimit = 200;
  let tagLimit = 10;
+ let {blog_id} = useParams();
   let {blog,blog:{banner,title,tags,des,content},setEditorState,setBlog} = useContext(EditorContext)
-  
   let {userAuth:{access_token}} = useContext(UserContext);
 let navigate = useNavigate();
   const handleCloseEvent = () => {
@@ -66,8 +70,8 @@ const publishBlog = (e) => {
   }
   let loadingToast = toast.loading("Publishing...");
   e.target.classList.add('disable');
-  let blogObj = {title,banner,des,content,tags ,draft:false}
-  axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/create-blog",blogObj,{
+  let blogObj = {title,banner,des,content,tags ,draft: false}
+  axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/create-blog",{...blogObj,id: blog_id},{
     headers:{
       'Authorization': `Bearer ${access_token}`
     }

@@ -10,18 +10,19 @@ import {Toaster ,toast} from 'react-hot-toast'
 import EditorJS from '@editorjs/editorjs'
 import {tools} from './tools.component'
 import { UserContext } from '../App'
+import { useParams } from 'react-router-dom'
 const BlogEditor = () => {
 // let blogBannerRef = useRef();
-let {blog,blog:{title,banner,content,tags,des},setBlog,textEditor,setTextEditor,setEditorState} = useContext(EditorContext)
-
+let {blog,blog:{ title, banner, content, tags, des}, setBlog, textEditor,setTextEditor, setEditorState} = useContext(EditorContext);
 let {userAuth:{access_token}} = useContext(UserContext);
+let { blog_id } = useParams();
 let navigate = useNavigate();
 //useEffect 
 useEffect(()=>{
     if(!textEditor.isReady){ setTextEditor(new EditorJS({
 
         holderId: 'textEditor',
-        data:content,
+        data: Array.isArray(content) ? content[0] : content,
         tools : tools,
         placeholder:"Let's Write an Awesome story",
     }))}
@@ -97,8 +98,9 @@ e.preventDefault();
           e.target.classList.add('disable');
           if(textEditor.isReady){
             textEditor.save().then(content =>{
+
                 let blogObj = {title,banner,des,content,tags ,draft:true}
-                axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/create-blog",blogObj,{
+                axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/create-blog",{...blogObj, id: blog_id},{
                 headers:{
                   'Authorization': `Bearer ${access_token}`
                 }

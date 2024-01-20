@@ -8,6 +8,7 @@ import HomePage from "./pages/home.page.jsx";
 import SearchPage from "./pages/search.page.jsx";
 import PageNotFound from "./pages/404.page.jsx";
 import ProfilePage from "./pages/profile.page.jsx";
+import BlogPage from "./pages/blog.page.jsx";
  export const UserContext = createContext({});   //global state can access it from anywhere on the port - context
 const App = () => {
     const [userAuth,setUserAuth] = useState({});
@@ -22,14 +23,17 @@ userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth({access_tok
     
             <UserContext.Provider value={{ userAuth, setUserAuth }}>
        <Routes>
-        <Route path ='/editor' element ={<Editor/>}></Route>
+        <Route path ='/editor' element ={<Editor/>}/>
+        <Route path ='/editor/:blog_id' element ={<Editor/>}/>
         <Route Route path = '/' element ={<Navbar/>}>
         <Route index element = {<HomePage/>}/>
         <Route  path = 'signin' element ={<UserAuthForm type= 'sign-in'/> }/>
         <Route  path = 'signup' element ={<UserAuthForm type= 'sign-up'/>}/>
         <Route  path = 'search/:query' element = {<SearchPage/>}/>
         <Route  path = 'user/:id' element = {<ProfilePage/>}/>
+        <Route path ="blog/:blog_id" element = {<BlogPage/>}/>
         <Route path ='*'element ={<PageNotFound/>}/>
+       
     </Route>
        </Routes>
        </UserContext.Provider>
