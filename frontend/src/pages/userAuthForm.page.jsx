@@ -28,7 +28,7 @@ console.log(access_token);
  .then(({data}) => {
      storeInSession("user",JSON.stringify(data))
       setUserAuth(data);
-     console.log(sessionStorage)
+  
     
  }) 
  .catch(({response})=>{
@@ -77,7 +77,7 @@ const handleSubmit = (e) => {
      for (let [key, value] of form.entries()) {
          formData[key] = value;
      }
-     console.log(formData);
+    
  
      let { fullname, email, password } = formData;
  

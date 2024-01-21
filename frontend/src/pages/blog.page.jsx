@@ -20,8 +20,9 @@ export const BlogContext = createContext({});
 const BlogPage =()=>{
     let {blog_id} =useParams()
     const [blog,setBlog] = useState(blogStructure);
-    const [similarBlogs,setSimilarBlogs] =useState(null);
-    const [loading,setLoading]  =useState(true);
+    const [similarBlogs,setSimilarBlogs] = useState(null);
+    const [loading,setLoading]  = useState(true);
+    const [isLikedByUser,setLikedByUser] = useState(false);
     let {title, content,banner,author:{personal_info:{fullname,username: author_username , profile_img}},publishedAt} = blog;
 
     const fetchBlog =() =>
@@ -54,8 +55,8 @@ const BlogPage =()=>{
     return (
         <AnimationWrapper>
             {
-                loading ? <Loader/>:
-                <BlogContext.Provider value ={{blog,setBlog}}>
+                loading ? <Loader/> :
+                <BlogContext.Provider value = {{blog, setBlog,isLikedByUser,setLikedByUser}}>
                     <div className='max-w-[900px] center py-10 max-lg:px-[5vw]'>
                         <img src={banner} alt="BlogBanner" className='aspect-video' />
                         <div className='mt-12'>

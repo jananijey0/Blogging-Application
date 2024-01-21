@@ -11,7 +11,7 @@ import User from '../server/Schema/User.js';
 import cors from 'cors';
 import Blog from '../server/Schema/Blog.js';
 import admin from 'firebase-admin'
-
+import Notification from '../server/Schema/Notification.js'
 
 const server = express();
 
@@ -413,6 +413,48 @@ server.post("/get-blog",(req,res) =>{
   if(Blog.draft && !draft){ // if error occurs change Blog to blog timpstamp 1:49:00
     return res.status(500).json({error:'You cannot access draft blogs'})
   }
+
+})
+
+// likes
+server.post("/like-blog",verifyJWT,(req,res) => {
+  let user_id =req.user;
+  let{ _id, isLikedByUser} = req.body;
+  let incrementVal = !isLikedByUser ? 1 : -1;
+  Blog.findOneAndUpdate({ _id }, { $inc: { "activity.total_likes": incrementVal}})
+  .then (blog => {
+    if(!isLikedByUser){
+      let like = new Notification({
+        type: "like",
+        blog: _id,
+        notification_for: blog.author,
+        user: user_id
+      })
+      like.save().then(notification => {
+        return res.status(200).json({liked_by_user: true})
+      })
+    } else {
+        Notification.findOneAndDelete({ user: user_id, blog: _id ,type: "like"})
+        .then(data => {
+          return res.status(200).json({ liked_by_user: false})
+        })
+        .catch (err => {
+          return res.status(500).json({error: err.message});
+        })
+    }
+  })
+})
+//already liked by user
+server.post("/isliked-by-user",verifyJWT,(req, res) => {
+  let user_id = req.user;
+  let { _id } = req.body;
+  Notification.exists({ user: user_id, type: "like", blog: _id
+  }).then(result => {
+    return res.status(200).json({ result })
+  })
+  .catch (err => {
+    return res.status(500).json({error:err.message})
+  })
 
 })
 server.listen(PORT,()=>{
