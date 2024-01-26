@@ -28,9 +28,9 @@ const List =({style,items})=>{
         </ol>
     )
 }
-const BlogContent =({block}) =>{
+const BlogContent =({ block }) =>{
  
-    let {type,data} = block;
+    let {type, data} = block;
     if(type == "paragraph"){
 
         return <p dangerouslySetInnerHTML={{__html:data.text}}></p>
