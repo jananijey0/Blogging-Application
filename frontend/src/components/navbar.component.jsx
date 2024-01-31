@@ -28,7 +28,7 @@ const handleBlur =() => {
 }
   return (
     <>
-    <div className='navbar'>  
+    <div className='navbar z-50' >  
     <Link to = "/"className='flex-none w-10'>
     <img src={logo} />
     </Link>
