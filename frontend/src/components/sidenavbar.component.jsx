@@ -4,7 +4,7 @@ import { UserContext } from "../App"
 import { useRef } from "react"
 
 const SideNav =()=>{
-    let {userAuth: {access_token}} = useContext(UserContext)
+    let {userAuth: {access_token, new_notification_available}} = useContext(UserContext)
     let page = location.pathname.split("/")[2];
     let [pageState, setPageState] = useState(page.replace('-',' '));
     let [showSideNav, setShowSideNav] = useState(false);
@@ -52,15 +52,22 @@ const SideNav =()=>{
 
             <h1 className="text-xl text-dark-grey mb-3">DashBoard</h1>
             <hr className="border-grey -ml-6 mb-8 mr-6"/>
-            <NavLink to ="dashboard/blogs" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
+            <NavLink to ="/dashboard/blogs" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
               <i className="fi fi-rr-document"></i>
                 Blogs
             </NavLink>
-            <NavLink to ="dashboard/notification" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
+          
+            <NavLink to ="/dashboard/notifications" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
+            <div className="relative">
               <i className="fi fi-rr-bell"></i>
-                Notification
+              {
+                new_notification_available ? <span className="bg-red w-2 h-2 rounded-full absolute z-10 top-0 right-0"></span>:""
+
+              }
+              </div>
+                Notifications
             </NavLink>
-            <NavLink to ="editor" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
+            <NavLink to ="/editor" onClick={(e) => setPageState(e.target.innerText)} className="sidebar-link">
               <i className="fi fi-rr-file-edit"></i>
                 Write
             </NavLink>
