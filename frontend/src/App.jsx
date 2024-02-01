@@ -14,18 +14,34 @@ import ChangePassword from "./pages/change-password.page.jsx";
 import EditProfile from "./pages/edit-profile.page.jsx";
 import Notifications from "./pages/notifications.page.jsx";
 import ManageBlog from "./pages/manage-blogs.page.jsx";
- export const UserContext = createContext({});   //global state can access it from anywhere on the port - context
-const App = () => {
-    const [userAuth,setUserAuth] = useState({});
+ export const UserContext = createContext({});
+    //global state can access it from anywhere on the port - context
 
+    const darkThemePref =() => window.matchMedia("(prefers-color-scheme: dark)").matches;
+export const ThemeContext = createContext({});
+    const App = () => {
+    const [userAuth,setUserAuth] = useState({});
+    const [theme, setTheme] = useState(()=> darkThemePref()? "dark":"light");
+    
     useEffect(()=>
     {
         
  let userInSession = lookInSession("user");
+ let ThemeInSession = lookInSession("theme");
 userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth({access_token: null})
-    },[])  //runs only once when rendering is complete
+if(ThemeInSession){
+    setTheme(()=> {
+        document.body.setAttribute('data-theme', ThemeInSession);
+        return ThemeInSession;
+
+    })
+} else{
+   document.body.setAttribute('data-theme', theme)
+}
+},[])  //runs only once when rendering is complete
+   
     return (
-    
+            <ThemeContext.Provider value={{theme, setTheme}}>
             <UserContext.Provider value={{ userAuth, setUserAuth }}>
        <Routes>
         <Route path ='/editor' element ={<Editor/>}/>
@@ -51,6 +67,7 @@ userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth({access_tok
     </Route>
        </Routes>
        </UserContext.Provider>
+       </ThemeContext.Provider>
 
     )
 }
