@@ -1,21 +1,11 @@
-# POST http://localhost:3000/signup
-# Content-Type: application/json
-
-# {
-#     "fullname" : "jan",
-#     "email" : "jan123@gmail.com",
-#     "password" : "#Janani123"
-# }
-
-
-# "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJmMjQwYjJjODY3ZTIzODkwNTNkMiIsImlhdCI6MTcwMzA4MDUxMn0.eDs3i_QQY980EWD5BpplASytAkh_YVxJKS0yAVmFx5M"
 
 
 
-POST http://localhost:3000/get-profile
+POST https://localhost:3000/signin
 Content-Type: application/json
 
 {
-    "query" : "jan"
-
+  "email" : "manisha@gmail.com",
+  "password" : "#Janani27"
 }
+

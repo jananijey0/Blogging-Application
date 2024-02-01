@@ -13,6 +13,7 @@ import SideNav from "./components/sidenavbar.component.jsx";
 import ChangePassword from "./pages/change-password.page.jsx";
 import EditProfile from "./pages/edit-profile.page.jsx";
 import Notifications from "./pages/notifications.page.jsx";
+import ManageBlog from "./pages/manage-blogs.page.jsx";
  export const UserContext = createContext({});   //global state can access it from anywhere on the port - context
 const App = () => {
     const [userAuth,setUserAuth] = useState({});
@@ -32,6 +33,7 @@ userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth({access_tok
         <Route Route path = '/' element ={<Navbar/>}>
         <Route index element = {<HomePage/>}/>
         <Route path="dashboard" element ={<SideNav/>}>
+            <Route path ="blogs" element={<ManageBlog/>}/>
             <Route path ="notifications" element={<Notifications/>}/>
         </Route>
         <Route path="settings" element ={<SideNav/>}>
