@@ -38,14 +38,14 @@ let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for pass
 server.use(express.json());
 //to use middleware  json sends requests and gets respose
 server.use(cors()); //enables to accept data from anywhere
-mongoose.connect(process.env.DB_LOC,
+mongoose.connect(process.env.DB_LOC_MDB,
     { autoIndex:true})
 //setting s3 bucket
 
 const s3 = new aws.S3({
   region:'ap-south-1',
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_FOR_APP,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_FOR_APP,
 
 })
 
@@ -69,7 +69,7 @@ const verifyJWT =(req,res,next)=>{
   if(token == null){
     return res.status(401).json({error:"No Access Token"})
   }
-  jwt.verify(token,process.env.SECRET_ACCESS_KEY,(err,user)=>{
+  jwt.verify(token,process.env.SECRET_ACCESS_KEY_FOR_APP,(err,user)=>{
     if(err){
       return res.status(403).json({error:"Access Token is Invalid"})
     }
@@ -81,7 +81,7 @@ const verifyJWT =(req,res,next)=>{
 
     const formatDatatoSend =(user) => {
 
-         const access_token = jwt.sign({id: user._id},process.env.SECRET_ACCESS_KEY) 
+         const access_token = jwt.sign({id: user._id},process.env.SECRET_ACCESS_KEY_FOR_APP) 
 
         return {
             access_token,
